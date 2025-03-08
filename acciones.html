@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pantalla de Acciones</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        function mostrarCuenta() {
+            let usuarioActual = JSON.parse(localStorage.getItem("usuarioActual"));
+    
+            if (!usuarioActual) {
+                alert("⚠ No hay sesión activa. Redirigiendo al login...");
+                window.location.href = "index.html";
+                return;
+            }
+    
+            // Mostrar usuario actual
+            document.getElementById("nombreUsuario").textContent = usuarioActual.nombre;
+            document.getElementById("numeroCuenta").textContent = usuarioActual.cuenta;
+        }
+    
+        function regresarLogin() {
+            localStorage.removeItem("usuarioActual"); // Elimina solo el usuario actual
+            window.location.href = "index.html"; // Regresa al login
+        }
+    </script>
+</head>
+<body onload="mostrarCuenta()">
+    <div class="acciones-container">
+        <h2>Bienvenido, <span id="nombreUsuario">Usuario</span></h2>
+        <p>Número de cuenta: <span id="numeroCuenta"></span></p>
+        <button onclick="alert('Depósito realizado con éxito')">Depositar</button>
+        <button onclick="alert('Retiro realizado con éxito')">Retirar</button>
+        <button onclick="alert('Tu saldo es de $500')">Consultar Saldo</button>
+        <button onclick="alert('Pago de servicios realizado con éxito')">Pagar Servicios</button>
+        <button onclick="regresarLogin()">Cerrar Sesión</button>
+    </div>
+</body>
+</html>

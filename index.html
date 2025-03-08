@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Guarda los usuarios en localStorage si no están registrados
+            if (!localStorage.getItem("usuarios")) {
+                const usuarios = [
+                    { nombre: "Edwin", pin: "0000", cuenta: "123456789" },
+                    { nombre: "Wilson", pin: "1111", cuenta: "987654321" }
+                ];
+                localStorage.setItem("usuarios", JSON.stringify(usuarios));
+            }
+        });
+    
+        function validarPIN(event) {
+            event.preventDefault();
+    
+            let pinIngresado = document.getElementById("pin").value;
+            let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+            let usuarioEncontrado = usuarios.find(u => u.pin === pinIngresado);
+    
+            if (usuarioEncontrado) {
+                localStorage.setItem("usuarioActual", JSON.stringify(usuarioEncontrado));
+                window.location.href = "acciones.html";
+            } else {
+                alert("❌ PIN incorrecto. Inténtelo de nuevo.");
+            }
+        }
+    </script>
+    
+</head>
+<body>
+    <div class="login-container">
+        <h2>Ingrese su PIN</h2>
+        <form onsubmit="validarPIN(event)">
+            <input type="password" id="pin" maxlength="4" pattern="[0-9]{4}" required placeholder="****">
+            <button type="submit">Iniciar sesión</button>
+        </form>
+    </div>
+</body>
+</html>

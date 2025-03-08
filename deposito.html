@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Depositar Dinero</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        function realizarDeposito() {
+            let cantidad = parseFloat(document.getElementById("cantidad").value);
+            let usuarioActual = JSON.parse(localStorage.getItem("usuarioActual"));
+
+            if (!usuarioActual) {
+                alert("⚠ No hay sesión activa. Redirigiendo al login...");
+                window.location.href = "index.html";
+                return;
+            }
+
+            // Validación de la cantidad
+            if (isNaN(cantidad) || cantidad < 1 || cantidad > 100) {
+                alert("⚠ Ingrese una cantidad válida entre $1 y $100.");
+                return;
+            }
+
+            // Obtener el saldo actual desde localStorage (se guarda al hacer login)
+            let saldoActual = parseFloat(localStorage.getItem("saldo") || "0");
+
+            // Realizar el depósito
+            saldoActual += cantidad;
+            localStorage.setItem("saldo", saldoActual); // Actualizamos el saldo
+
+            // Mostrar un mensaje de éxito
+            alert(`¡Depósito exitoso! Has depositado $${cantidad}. Tu saldo actual es de $${saldoActual}.`);
+
+            // Redirigir a la pantalla de acciones
+            window.location.href = "acciones.html";
+        }
+    </script>
+</head>
+<body>
+    <div class="deposito-container">
+        <h2>Realizar Depósito</h2>
+        <p>Introduce la cantidad a depositar (entre $1 y $100):</p>
+        <input type="number" id="cantidad" min="1" max="100" required placeholder="$" step="0.01">
+        <button onclick="realizarDeposito()">Depositar</button>
+    </div>
+</body>
+</html>
